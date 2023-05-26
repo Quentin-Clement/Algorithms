@@ -6,56 +6,66 @@ public static class ArrayProblems
 {
     public static bool AreArraysEqual<T>(T[] xs, T[] ys)
     {
-        if (xs.Length != ys.Length) return false;
-        for (var i = 0; i < xs.Length; i++)
-        {
-            if (!xs[i].Equals(ys[i]))
-                return false;
+        if (xs == ys) {
+            return true;
         }
-
-        return true;
+        return false;
     }
 
     public static void Swap<T>(T[] xs, int a, int b)
     {
-        var tmp = xs[a];
-        xs[a] = xs[b];
-        xs[b] = tmp;
+        if (xs.Length < 2) {
+            throw new IndexOutOfRangeException();
+        }
+
+        else {
+            T temp = xs[a];
+            xs[a] = xs[b];
+            xs[b] = temp;
+        }
     }
 
     public static T FirstElement<T>(T[] xs)
     {
-        return xs[0];
+        if (xs.Length < 1) {
+            throw new IndexOutOfRangeException();
+        }
+        else {
+            return xs[0];
+        }
     }
 
     public static T LastElement<T>(T[] xs)
     {
-        return xs[xs.Length - 1];
+        if(xs.Length < 1) {
+            throw new IndexOutOfRangeException();
+        }
+        else
+        {
+            return xs[xs.Length - 1];
+        }
     }
 
     public static T MiddleElement<T>(T[] xs)
     {
-        return xs[xs.Length / 2];
+        if (xs.Length < 1)
+        {
+            throw new IndexOutOfRangeException();
+        }
+        else
+        {
+            return xs[xs.Length / 2];
+        }
     }
 
     public static void Reverse<T>(T[] xs)
     {
-        // Consider what would happen if I went to the end.
-        for (var i = 0; i < xs.Length / 2; ++i)
-        {
-            // A common pattern: xs.Length - 1 - i
-            // means ith item from the last
-            Swap(xs, i, xs.Length - 1 - i);
-        }
+        Array.Reverse(xs);
     }
 
     public static int CountElement<T>(T[] xs, T element)
     {
-        var sum = 0;
-        for (var i=0; i < xs.Length; ++i)
-            if (xs[i].Equals(element))
-                sum++;
-        return sum;
+        return xs.Count(x => x.Equals(element));
     }
 
     public static string ToCommaDelimitedString<T>(T[] xs)
@@ -73,29 +83,31 @@ public static class ArrayProblems
 
     public static int Count<T>(T[] xs, Func<T, bool> predicate)
     {
-        var sum = 0;
-        for (var i = 0; i < xs.Length; ++i)
-            if (predicate(xs[i]))
-                sum++;
-        return sum;
+        return xs.Count(predicate);
     }
 
     public static T Min<T>(T[] xs, Func<T, T, int> comparer)
     {
-        var min = xs[0];
-        for (var i = 1; i < xs.Length; ++i)
-            if (comparer(xs[i], min) < 1)
-                min = xs[i];
-        return min;
+        if (xs.Length < 1)
+        {
+            throw new IndexOutOfRangeException();
+        }
+        else
+        {
+            return xs.Min();
+        }
     }
 
     public static T Max<T>(T[] xs, Func<T, T, int> comparer)
     {
-        var max = xs[0];
-        for (var i = 1; i < xs.Length; ++i)
-            if (comparer(xs[i], max) > 1)
-                max = xs[i];
-        return max;
+        if (xs.Length < 1)
+        {
+            throw new IndexOutOfRangeException();
+        }
+        else
+        {
+            return xs.Max();
+        }
     }
 
     public static bool HasDuplicates<T>(T[] xs)
